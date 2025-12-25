@@ -9,6 +9,7 @@ public interface CustomerService {
 
     List<Customer> getAllCustomers();
     Optional<Customer> getCustomerById(Long id);
+    Customer getCustomerByEmail(String email);
     Customer createCustomer(Customer customer);
     Customer updateCustomer(Customer customer, Long id);
     String deleteCustomer(Long id);

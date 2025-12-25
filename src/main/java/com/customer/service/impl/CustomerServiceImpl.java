@@ -1,6 +1,8 @@
 package com.customer.service.impl;
 
 import com.customer.entity.Customer;
+import com.customer.exception.CustomerAlreadyExistsException;
+import com.customer.exception.CustomerNotFoundException;
 import com.customer.repository.CustomerRepository;
 import com.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +26,24 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> getCustomerById(Long id) {
-        return customerRepository.findById(id);
+        Optional<Customer> customer = customerRepository.findById(id);
+        if(customer.isEmpty()){
+            throw new CustomerNotFoundException(id);
+        }
+        return customer;
+    }
+
+    @Override
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.getCustomerByEmail(email);
     }
 
     @Override
     public Customer createCustomer(Customer customer) {
+        Customer customerByEmail = getCustomerByEmail(customer.getEmail());
+        if(customerByEmail != null){
+            throw new CustomerAlreadyExistsException(customer.getEmail());
+        }
         return customerRepository.save(customer);
     }
 
