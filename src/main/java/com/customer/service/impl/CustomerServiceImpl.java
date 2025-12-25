@@ -6,7 +6,6 @@ import com.customer.exception.CustomerNotFoundException;
 import com.customer.repository.CustomerRepository;
 import com.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
