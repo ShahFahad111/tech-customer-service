@@ -11,13 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
     // GET ALL CUSTOMERS
-    @GetMapping("/customers")
+    @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
@@ -33,14 +34,14 @@ public class CustomerController {
     }
 
     // CREATE CUSTOMER
-    @PostMapping("/customers")
+    @PostMapping("/add")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         Customer savedCustomer = customerService.createCustomer(customer);
         return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
     }
 
     // UPDATE CUSTOMER
-    @PutMapping("/customers/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(
             @RequestBody Customer customer,
             @PathVariable("id") Long id) {
