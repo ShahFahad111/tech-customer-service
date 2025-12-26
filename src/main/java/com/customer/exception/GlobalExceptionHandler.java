@@ -14,29 +14,32 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleCustomerNotFound(CustomerNotFoundException ex){
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        problemDetail.setTitle("Customer Not Found");
+        ProblemDetail problemDetail=ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setTitle("Customer Not Found.");
         problemDetail.setDetail(ex.getMessage());
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("customerId", ex.getCustomerId());
+        problemDetail.setProperty("errorCode", "CUSTOMER_NOT_FOUND");
+        //problemDetail.setProperty("timestamp",Instant.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
 
     @ExceptionHandler(CustomerAlreadyExistsException.class)
     public ResponseEntity<ProblemDetail> handleCustomerAlreadyExists(CustomerAlreadyExistsException ex){
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-        problemDetail.setTitle("Customer Already Exists");
+        ProblemDetail problemDetail=ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problemDetail.setTitle("Customer Already Exists.");
         problemDetail.setDetail(ex.getMessage());
-        problemDetail.setProperty("timestamp", Instant.now());
+        //problemDetail.setProperty("timestamp",Instant.now());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> handleException(Exception ex){
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        problemDetail.setTitle("Internal Server Error");
+    public ResponseEntity<ProblemDetail> handleGenericErrors(Exception ex){
+        ProblemDetail problemDetail=ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setTitle("INTERNAL SERVER ERROR.");
         problemDetail.setDetail(ex.getMessage());
-        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("timestamp",Instant.now());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
     }
+
 
 }
